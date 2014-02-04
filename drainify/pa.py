@@ -57,7 +57,7 @@ def find_spotify_input_sink():
     raise Exception('Please start spotify.')
 
 
-def list_sinks_short():
+def list_sinks():
     """List available sinks.
 
     :returns: a list of names for available sinks.
@@ -93,14 +93,17 @@ def unload_combined_sink(combined_sink_id):
 
 
 def main():
-    for i, s in enumerate(list_sinks_short()):
+    sinks = list_sinks()
+    for i, s in enumerate(sinks):
         print "%i: %s" % (i, s)
 
-    x = raw_input("Choose your audio device (Default [0]): ")
-    if not x:
-        x = 0
+    sink_choose = raw_input("Choose your audio device (Default [0]): ")
 
-    rec_sink = list_sinks_short()[0]
+    # default sink
+    if not sink_choose:
+        sink_choose = 0
+
+    rec_sink = sinks[sink_choose]
     spot_id = find_spotify_input_sink()
     print "spotify id", spot_id
     combined_sink = create_combined_sink(rec_sink)
