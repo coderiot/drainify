@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
+from __future__ import print_function
 
 import re
 import subprocess
@@ -13,13 +14,13 @@ def create_combined_sink(sink):
 
     """
     p = subprocess.Popen(['pactl',
-                     'load-module',
-                     'module-combine-sink',
-                     'sink_name=combined',
-                     'slaves=' + sink
-                     ],
-                     stdout=subprocess.PIPE
-                     )
+                          'load-module',
+                          'module-combine-sink',
+                          'sink_name=combined',
+                          'slaves=%s' % sink
+                         ],
+                         stdout=subprocess.PIPE)
+
     out, err = p.communicate()
 
     return out
@@ -44,7 +45,11 @@ def find_spotify_input_sink():
 
     :returns: input sink id of spotify.
     """
-    p = subprocess.Popen(['pactl', 'list','sink-inputs'], stdout=subprocess.PIPE)
+    p = subprocess.Popen(['pactl',
+                          'list',
+                          'sink-inputs'],
+                          stdout=subprocess.PIPE)
+
     out, err = p.communicate()
     inputs = out.split('\n\n')
 
@@ -67,6 +72,7 @@ def list_sinks():
                           'sinks',
                           'short'],
                           stdout=subprocess.PIPE)
+
     out, err = p.communicate()
     sinks = []
 
@@ -89,13 +95,14 @@ def unload_combined_sink(combined_sink_id):
                           'unload-module',
                           combined_sink_id],
                           stdout=subprocess.PIPE)
+
     out, err = p.communicate()
 
 
 def main():
     sinks = list_sinks()
     for i, s in enumerate(sinks):
-        print "%i: %s" % (i, s)
+        print("%i: %s" % (i, s))
 
     sink_choose = raw_input("Choose your audio device (Default [0]): ")
 
@@ -105,13 +112,13 @@ def main():
 
     rec_sink = sinks[sink_choose]
     spot_id = find_spotify_input_sink()
-    print "spotify id", spot_id
+    print("spotify id", spot_id)
     combined_sink = create_combined_sink(rec_sink)
-    print "create combined sink", combined_sink
+    print("create combined sink", combined_sink)
     move_sink_input(spot_id)
     raw_input("Press key.")
     unload_combined_sink(combined_sink)
-    print "unload combined sink."
+    print("unload combined sink.")
 
 if __name__ == '__main__':
     main()
