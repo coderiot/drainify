@@ -15,7 +15,7 @@ Notice: You have to install dbus-python and pyobject by your own
 
 ### Install dependecies on Ubuntu
 ```sh
-sudo apt-get install pulseaudio-utils dbus-python python-gobject python-eye3d lame
+sudo apt-get install pulseaudio-utils dbus-python python-gobject python-eyed3 lame
 ```
 
 ### Installation of drainify
