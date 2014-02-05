@@ -1,4 +1,4 @@
-## *drainify* - Record your spotfify stream from pulseaudio.
+## *drainify* - Record your spotify stream from pulseaudio.
 
 ### Dependencies
  * pulseaudio
