@@ -14,4 +14,8 @@ setup(name='drainify',
                       #'eyed3 >= 0.7.4',
                       #'pygobject'],
     packages=['drainify', ],
+    entry_points="""
+        [console_scripts]
+        drainify = drainify.record:main
+    """
 )
